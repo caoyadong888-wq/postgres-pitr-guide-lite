@@ -1,0 +1,11 @@
+# Filled lab fragment for db.example.com (192.0.2.20). Not a complete postgresql.conf.
+# wal_level=replica and archive_mode=on match the PostgreSQL 18 requirement
+# that archiving use replica or higher and that archive_mode not be combined
+# with minimal. Whether replica is accepted on your major version: check-upstream-docs.
+# archive_timeout=60 is this lab's stand-in for the documentation's "a minute or so".
+# The unit of a bare integer: check-upstream-docs.
+
+wal_level = replica
+archive_mode = on
+archive_command = 'test ! -f /var/backups/wal-lab/%f && cp %p /var/backups/wal-lab/%f'
+archive_timeout = 60

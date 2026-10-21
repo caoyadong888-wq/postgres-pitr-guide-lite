@@ -1,0 +1,36 @@
+# Continuous-archiving fragment for postgresql.conf.
+# Not a complete configuration file. Do not paste it over a live file.
+#
+# Quoted behavior is from the PostgreSQL 18 documentation
+# (continuous archiving chapter and WAL runtime configuration, archiving section)
+# unless a line says otherwise. Defaults and enums change between major versions.
+# Every assigned value below is a variable. check-upstream-docs.
+
+# check-upstream-docs: WAL_LEVEL
+# PostgreSQL 18 docs: set wal_level to replica or higher to archive.
+# archive_mode cannot be enabled when wal_level is minimal.
+# The default for your major version is not stated in this pack.
+wal_level = '{{CHECK_UPSTREAM_DOCS:WAL_LEVEL}}'  # check-upstream-docs
+
+# check-upstream-docs: ARCHIVE_MODE
+# PostgreSQL 18 docs: besides off, the modes are on and always.
+# always also archives during archive recovery or standby.
+# archive_mode can only be set at server start.
+archive_mode = '{{CHECK_UPSTREAM_DOCS:ARCHIVE_MODE}}'  # check-upstream-docs
+
+# Documented Unix shape from the PostgreSQL 18 continuous-archiving chapter:
+# archive_command = 'test ! -f /mnt/server/archivedir/%f && cp %p /mnt/server/archivedir/%f'
+# %p is the path relative to the data directory, %f is the file name, %% is a literal percent.
+# A non-matching library name belongs in archive_library, not in this string.
+# check-upstream-docs: ARCHIVE_COMMAND
+archive_command = '{{CHECK_UPSTREAM_DOCS:ARCHIVE_COMMAND}}'  # check-upstream-docs
+
+# check-upstream-docs: ARCHIVE_TIMEOUT
+# PostgreSQL 18 docs: a forced segment is still a full-length file.
+# The same chapter says settings of a minute or so are usually reasonable.
+# The unit of a bare integer on your major version is not stated here.
+archive_timeout = {{CHECK_UPSTREAM_DOCS:ARCHIVE_TIMEOUT}}  # check-upstream-docs
+
+# archive_library is an alternative to archive_command in the PostgreSQL 18 docs.
+# This pack does not name a library. check-upstream-docs.
+# archive_library = '{{CHECK_UPSTREAM_DOCS:ARCHIVE_LIBRARY}}'  # check-upstream-docs
